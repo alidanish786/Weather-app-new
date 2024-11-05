@@ -10,4 +10,6 @@ request({url:url,json:true},(error,response)=>{
     var data=response.body.current;
 
     console.log('Current temperature is '+data.temperature +', but it feels like '+data.feelslike);
+    console.log('Current temperature is '+data.temperature +', but it feels like '+data.feelslike);
+
 })
