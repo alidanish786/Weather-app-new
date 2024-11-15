@@ -6,17 +6,17 @@ const inputLocation=process.argv[2];
 
 if(inputLocation){
     //Geocode
-geocode('Tokyo',(error,data)=>{
+geocode(inputLocation,(error,{location,latitude,longitude}={})=>{
     if(error){
         return console.log(error);
     }
-    console.log(data.location);
+    console.log(location);
     //Forecast
-    forecast(data.latitude,data.longitude,(error,data)=>{
+    forecast(latitude,longitude,(error,{current})=>{
         if(error){
             return console.log(error);
         }
-        console.log('Current temperature is '+data.current.temperature +', but it feels like '+data.current.feelslike);
+        console.log('Current temperature is '+current.temperature +', but it feels like '+current.feelslike);
     });
 })
 }
