@@ -2,7 +2,10 @@ const request = require("request");
 const geocode=require('./utils/geocode');
 const forecast=require('./utils/forecast');
 
-//Geocode
+const inputLocation=process.argv[2];
+
+if(inputLocation){
+    //Geocode
 geocode('Tokyo',(error,data)=>{
     if(error){
         return console.log(error);
@@ -16,5 +19,10 @@ geocode('Tokyo',(error,data)=>{
         console.log('Current temperature is '+data.current.temperature +', but it feels like '+data.current.feelslike);
     });
 })
+}
+else{
+    console.log('Please enter location.')
+}
+
 
 
