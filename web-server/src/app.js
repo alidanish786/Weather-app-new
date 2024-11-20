@@ -3,11 +3,17 @@ const path=require('path');
 const express=require('express');
 
 const app=express();
+
+//Define paths for express config
 const publicDirPath=path.join(__dirname,'../public');
-// app.set('views', path.join(__dirname, '../views'));
+const viewsPath = path.join(__dirname,'../templates');
 
+
+//Setup handlebars engine and view location
 app.set('view engine','hbs');
+app.set('views',viewsPath);
 
+//Setup static directory to serve
 app.use(express.static(publicDirPath));
 
 app.get('',(req,res)=>{
