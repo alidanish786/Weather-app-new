@@ -41,10 +41,24 @@ app.get('/help',(req,res)=>{
     })
 })
 
+// app.get('/weather',(req,res)=>{
+//     res.send({
+//         forecast:'Danish',
+//         location:'Delhi'
+//     });
+// });
+
 app.get('/weather',(req,res)=>{
+
+    if(!req.query.address){
+        return res.send({
+            error:'Address must be provided.. aborting'
+        });
+    }
     res.send({
         forecast:'Danish',
-        location:'Delhi'
+        location:'Delhi',
+        address:req.query.address
     });
 });
 
