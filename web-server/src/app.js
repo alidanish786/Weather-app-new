@@ -1,3 +1,6 @@
+const geocode=require('./utils/geocode')
+const forecast=require('./utils/forecast')
+
 const path=require('path');
 
 const express=require('express');
@@ -41,12 +44,12 @@ app.get('/help',(req,res)=>{
     })
 })
 
-// app.get('/weather',(req,res)=>{
-//     res.send({
-//         forecast:'Danish',
-//         location:'Delhi'
-//     });
-// });
+app.get('/weather',(req,res)=>{
+    res.send({
+        forecast:'Danish',
+        location:'Delhi'
+    });
+});
 
 app.get('/weather',(req,res)=>{
 
@@ -55,12 +58,29 @@ app.get('/weather',(req,res)=>{
             error:'Address must be provided.. aborting'
         });
     }
-    res.send({
-        forecast:'Danish',
-        location:'Delhi',
-        address:req.query.address
+
+    if(req.query.address){
+        geocode(req.query.address,(error,{location,latitude,longitude}={})=>{
+            if(error){
+                return res.send({error:error});
+            }
+            //Forecast
+            forecast(latitude,longitude,(error,{current})=>{
+                if(error){
+                    return  res.send({error});
+                }
+                res.send({
+                    'forecast':'Current temperature is '+current.temperature +', but it feels like '+current.feelslike,
+                    location,
+                    address:req.query.address
+                    //'Current temperature is '+current.temperature +', but it feels like '+current.feelslike});
+            });
+        });
+    })
+}
     });
-});
+
+// });
 
 app.get('/help/*',(req,res)=>{
     res.render('PageNotFound',{
