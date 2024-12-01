@@ -2,6 +2,7 @@ const geocode=require('./utils/geocode')
 const forecast=require('./utils/forecast')
 
 const path=require('path');
+const port=process.env.PORT||3000;
 
 const express=require('express');
 
@@ -43,42 +44,7 @@ app.get('/help',(req,res)=>{
         createdby:'Kane'
     })
 })
-
-// app.get('/weather',(req,res)=>{
-//     res.send({
-//         forecast:'Danish',
-//         location:'Delhi'
-//     });
-// });
-
-// app.get('/weather',(req,res)=>{
-//     // debugger;
-//     if(!req.query.address){
-//         return res.send({
-//             error:'Address must be provided.. aborting'
-//         });
-//     }
-//     if(req.query.address){
-//         geocode(req.query.address,(error,{location,latitude,longitude}={})=>{
-//             if(error){
-//                 return res.send({error:error});
-//             }
-//             //Forecast
-//             forecast(latitude,longitude,(error,{current}={})=>{
-//                 if(error){
-//                     return  res.send({error});
-//                 }
-//                 res.send({
-//                     forecast:'Current temperature is '+current.temperature +', but it feels like '+current.feelslike,
-//                     location,
-//                     address:req.query.address
-//             })
-//         })
-//     })
-// }
-//     })
-
-// });
+ 
 
 
 app.get('/weather', (req, res) => {
@@ -122,6 +88,6 @@ app.get('*',(req,res)=>{
 
 })
 
-app.listen(3000,()=>{
-    console.log('Server is up and running on port 3000.!')
+app.listen(port,()=>{
+    console.log('Server is up and running on port'+port)
 });
