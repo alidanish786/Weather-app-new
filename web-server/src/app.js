@@ -44,43 +44,69 @@ app.get('/help',(req,res)=>{
     })
 })
 
-app.get('/weather',(req,res)=>{
-    res.send({
-        forecast:'Danish',
-        location:'Delhi'
-    });
-});
+// app.get('/weather',(req,res)=>{
+//     res.send({
+//         forecast:'Danish',
+//         location:'Delhi'
+//     });
+// });
 
-app.get('/weather',(req,res)=>{
-
-    if(!req.query.address){
-        return res.send({
-            error:'Address must be provided.. aborting'
-        });
-    }
-
-    if(req.query.address){
-        geocode(req.query.address,(error,{location,latitude,longitude}={})=>{
-            if(error){
-                return res.send({error:error});
-            }
-            //Forecast
-            forecast(latitude,longitude,(error,{current})=>{
-                if(error){
-                    return  res.send({error});
-                }
-                res.send({
-                    'forecast':'Current temperature is '+current.temperature +', but it feels like '+current.feelslike,
-                    location,
-                    address:req.query.address
-                    //'Current temperature is '+current.temperature +', but it feels like '+current.feelslike});
-            });
-        });
-    })
-}
-    });
+// app.get('/weather',(req,res)=>{
+//     // debugger;
+//     if(!req.query.address){
+//         return res.send({
+//             error:'Address must be provided.. aborting'
+//         });
+//     }
+//     if(req.query.address){
+//         geocode(req.query.address,(error,{location,latitude,longitude}={})=>{
+//             if(error){
+//                 return res.send({error:error});
+//             }
+//             //Forecast
+//             forecast(latitude,longitude,(error,{current}={})=>{
+//                 if(error){
+//                     return  res.send({error});
+//                 }
+//                 res.send({
+//                     forecast:'Current temperature is '+current.temperature +', but it feels like '+current.feelslike,
+//                     location,
+//                     address:req.query.address
+//             })
+//         })
+//     })
+// }
+//     })
 
 // });
+
+
+app.get('/weather', (req, res) => {
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must provide an address!'
+        })
+    }
+
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+        if (error) {
+            return res.send({ error })
+        }
+
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({ error })
+            }
+
+            res.send({
+                forecast: forecastData,
+                location,
+                address: req.query.address
+            })
+        })
+    })
+})
+
 
 app.get('/help/*',(req,res)=>{
     res.render('PageNotFound',{
