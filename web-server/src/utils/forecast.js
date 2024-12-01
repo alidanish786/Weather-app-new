@@ -8,7 +8,7 @@ const forecast=(lat,long,callback)=>{
             // console.log('There is some error..');
         }
         else if(body.error){
-            callback(body.error,undefined);
+            callback('Unable to find location..',undefined);
             // console.log('Unable to find location..');
         }
         else{

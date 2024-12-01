@@ -82,7 +82,7 @@ app.get('/help',(req,res)=>{
 
 
 app.get('/weather', (req, res) => {
-    if (!req.query.address) {
+    0if (!req.query.address) {
         return res.send({
             error: 'You must provide an address!'
         })
@@ -93,13 +93,13 @@ app.get('/weather', (req, res) => {
             return res.send({ error })
         }
 
-        forecast(latitude, longitude, (error, forecastData) => {
+        forecast(latitude, longitude, (error, {current}) => {
             if (error) {
                 return res.send({ error })
             }
 
             res.send({
-                forecast: forecastData,
+                forecast: 'Current temperature is '+current.temperature +', but it feels like '+current.feelslike,
                 location,
                 address: req.query.address
             })
